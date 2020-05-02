@@ -38,7 +38,7 @@ public class ServiceList {
         return new ArrayList<>(services.values());
     }
 
-    public Future<ResultSet> upsert(JsonObject service) {
+    public Future<ResultSet> insert(JsonObject service) {
         services.put(service.getString("url"), service);
         return connector.query("INSERT OR REPLACE INTO service (url, name, createdAt)" +
                         " values (?," +
