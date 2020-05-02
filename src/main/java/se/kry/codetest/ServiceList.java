@@ -23,11 +23,12 @@ public class ServiceList {
 
     public Future<Boolean> init() {
         Future<Boolean> statusFuture = Future.future();
-        connector.query("SELECT * FROM service;").setHandler(res -> {
+        connector.query("SELECT * FROM services;").setHandler(res -> {
             if (res.succeeded()) {
                 res.result().getRows().forEach(row -> services.put(row.getString("url"), row.put("status", "UNKNOWN")));
                 statusFuture.complete(true);
             } else {
+                System.out.println("DB connection issue" + res.cause());
                 statusFuture.fail(res.cause());
             }
         });
