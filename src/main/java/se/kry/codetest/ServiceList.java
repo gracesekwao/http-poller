@@ -41,7 +41,7 @@ public class ServiceList {
 
     public Future<ResultSet> insert(JsonObject service) {
         services.put(service.getString("url"), service);
-        return connector.query("INSERT OR REPLACE INTO service (url, name, createdAt)" +
+        return connector.query("INSERT OR REPLACE INTO services (url, name, createdAt)" +
                         " values (?," +
                         " ?," +
                         " COALESCE((SELECT createdAt FROM service WHERE url = ?), ?)" +
@@ -55,7 +55,7 @@ public class ServiceList {
 
     public Future<ResultSet> remove(String service) {
         services.remove(service);
-        return connector.query("DELETE FROM service WHERE url=?", new JsonArray().add(service));
+        return connector.query("DELETE FROM services WHERE url=?", new JsonArray().add(service));
     }
 
 }
