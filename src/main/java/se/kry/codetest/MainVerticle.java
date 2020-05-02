@@ -7,6 +7,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.handler.StaticHandler;
+import se.kry.codetest.ServiceList;
 
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +16,6 @@ import java.util.stream.Collectors;
 public class MainVerticle extends AbstractVerticle {
 
   private HashMap<String, String> services = new HashMap<>();
-  //TODO use this
   private DBConnector connector;
   private BackgroundPoller poller = new BackgroundPoller();
 
