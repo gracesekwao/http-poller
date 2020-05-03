@@ -11,9 +11,12 @@ import se.kry.codetest.ServiceList;
 
 import java.util.HashMap;
 import java.util.List;
+import java.time.Instant;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.time.Instant;
+import java.net.URLDecoder;
+
 
 public class MainVerticle extends AbstractVerticle {
 
@@ -69,7 +72,7 @@ public class MainVerticle extends AbstractVerticle {
       JsonObject jsonBody = req.getBodyAsJson();
       JsonObject service;
       try {
-        service =serviceObj(jsonBody.getString("url"), jsonBody.getString("name"));
+        service = serviceObj(jsonBody.getString("url"), jsonBody.getString("name"));
       } catch (MalformedURLException e) {
         req.response()
                 .setStatusCode(400)
@@ -94,7 +97,30 @@ public class MainVerticle extends AbstractVerticle {
     });
 
     // delete services
-
+    router.delete("/service/:service").handler(req -> {
+      try {
+        String service = URLDecoder.decode(req.pathParam("service"), "UTF-8");
+        serviceList.remove(service).setHandler(asyncResult -> {
+          if (asyncResult.succeeded()) {
+            System.out.println("Service deleted successfully");
+            req.response()
+                    .putHeader("content-type", "text/plain")
+                    .end("OK");
+          } else {
+            System.out.println("failed to delete service");
+            req.response()
+                    .setStatusCode(500)
+                    .putHeader("content-type", "text/plain")
+                    .end("Internal error");
+          }
+        });
+      } catch (UnsupportedEncodingException e) {
+        req.response()
+                .setStatusCode(400)
+                .putHeader("content-type", "text/plain")
+                .end("Invalid parameter: " + req.pathParam("service"));
+      }
+    });
   }
 
   private JsonObject serviceObj(String url, String name) throws MalformedURLException {

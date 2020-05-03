@@ -5,7 +5,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.core.json.JsonArray;
 
 import io.vertx.ext.sql.ResultSet;
-import se.kry.codetest.DBConnector;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +54,7 @@ public class ServiceList {
 
     public Future<ResultSet> remove(String service) {
         services.remove(service);
-        return connector.query("DELETE FROM services WHERE url=?", new JsonArray().add(service));
+        return connector.query("DELETE FROM services WHERE id=?", new JsonArray().add(service));
     }
 
 }
