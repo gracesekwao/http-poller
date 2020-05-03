@@ -34,6 +34,7 @@ fetch(servicesRequest)
       const deleteBtn = document.createElement('a');
       const icon = document.createElement('i');
       deleteBtn.setAttribute('class', 'delete');
+      deleteBtn.addEventListener('click', () => { deleteService(service.id)});
       deleteBtn.setAttribute('type', 'button');
       deleteBtn.setAttribute('title', 'delete');
       deleteBtn.setAttribute('data-toggle', 'tooltip')
@@ -63,4 +64,14 @@ saveButton.onclick = evt => {
     },
   body: JSON.stringify({url, name}),
 }).then(response => location.reload());
+}
+
+function deleteService(id) {
+    fetch('/service/' + id, {
+        method: 'delete',
+        headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+        },
+    }).then(response => location.reload());
 }
