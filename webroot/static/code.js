@@ -19,6 +19,31 @@ fetch(servicesRequest)
       const status = newRow.insertCell(3);
       status.appendChild(document.createTextNode(service.status));
 
+      const actions = newRow.insertCell(4);
+
+      const editBtn = document.createElement('a');
+      const iconEdit = document.createElement('i');
+      editBtn.setAttribute('class', 'edit');
+      editBtn.setAttribute('type', 'button');
+      editBtn.setAttribute('title', 'edit');
+      editBtn.setAttribute('data-toggle', 'tooltip')
+      iconEdit.setAttribute('class', 'material-icons');
+      iconEdit.innerHTML ='&#xE254;';
+      editBtn.appendChild(iconEdit);
+
+      const deleteBtn = document.createElement('a');
+      const icon = document.createElement('i');
+      deleteBtn.setAttribute('class', 'delete');
+      deleteBtn.setAttribute('type', 'button');
+      deleteBtn.setAttribute('title', 'delete');
+      deleteBtn.setAttribute('data-toggle', 'tooltip')
+      icon.setAttribute('class', 'material-icons');
+      icon.innerHTML ='&#xE872;';
+      deleteBtn.appendChild(icon);
+
+      actions.appendChild(editBtn);
+      actions.appendChild(deleteBtn);
+
   });
 });
 
