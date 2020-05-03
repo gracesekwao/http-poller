@@ -16,15 +16,7 @@
     <div class="table-wrapper">
         <div class="table-title">
             <div class="row">
-                <div class="col-sm-6"><h2>KRY Status Poller</h2></div>
-                <div class="col-sm-6">
-                    <div class="input-group">
-                        <input type="text" id="url-name" class="form-control">
-                        <span class="input-group-btn">
-                            <button id="post-service" type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Save</button>
-                       </span>
-                    </div>
-                </div>
+                <div class="col-sm-8"><h2>KRY Status Poller</h2></div>
             </div>
         </div>
         <table class="table table-bordered" id="service-list">
@@ -39,6 +31,21 @@
             <tbody>
             </tbody>
         </table>
+    </div>
+    <div class="row">
+        <div class="col-sm-10">
+            <div class="form">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" class="form-control" placeholder="url name">
+                </div>
+                <div class="form-group">
+                    <label for="url">URL</label>
+                    <input type="text" id="url" class="form-control" placeholder="url">
+                </div>
+                <button id="post-service" type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Save</button>
+            </div>
+        </div>
     </div>
 </div>
 </body>

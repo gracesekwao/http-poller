@@ -27,13 +27,15 @@ const saveButton = document.querySelector('#post-service');
 saveButton.onclick = evt => {
     evt.preventDefault();
 
-    let urlName = document.querySelector('#url-name').value;
+    let url = document.querySelector('#url').value;
+    let name = document.querySelector('#name').value;
+
     fetch('/service', {
     method: 'post',
     headers: {
     'Accept': 'application/json, text/plain, */*',
     'Content-Type': 'application/json'
     },
-  body: JSON.stringify({url:urlName})
+  body: JSON.stringify({url, name}),
 }).then(response => location.reload());
 }
