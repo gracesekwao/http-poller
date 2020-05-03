@@ -3,14 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <title>Welcome to KRY</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round|Open+Sans">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-KRY status poller
-<ul id="service-list">
-</ul>
-<input type="text" id="url-name">
-<button id="post-service">Save</button>
 
+<div class="container">
+    <div class="table-wrapper">
+        <div class="table-title">
+            <div class="row">
+                <div class="col-sm-6"><h2>KRY Status Poller</h2></div>
+                <div class="col-sm-6">
+                    <div class="input-group">
+                        <input type="text" id="url-name" class="form-control">
+                        <span class="input-group-btn">
+                            <button id="post-service" type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Save</button>
+                       </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <table class="table table-bordered" id="service-list">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>URL</th>
+                <th>Date Created</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
 </body>
 <script src="static/code.js">
 </script>

@@ -1,17 +1,32 @@
 const listContainer = document.querySelector('#service-list');
+const listBody = listContainer.getElementsByTagName('tbody')[0];
 let servicesRequest = new Request('/service');
 fetch(servicesRequest)
 .then(function(response) { return response.json(); })
 .then(function(serviceList) {
   serviceList.forEach(service => {
-    const li = document.createElement("li");
-    li.appendChild(document.createTextNode(service.name + ': ' +  service.url + ' ' + service.status));
-    listContainer.appendChild(li);
+      const newRow = listBody.insertRow(listBody.rows.length);
+
+      const newServiceName = newRow.insertCell(0);
+      newServiceName.appendChild(document.createTextNode(service.name));
+
+      const newUrlName = newRow.insertCell(1);
+      newUrlName.appendChild(document.createTextNode(service.url));
+
+      const createdDate = newRow.insertCell(2);
+      createdDate.appendChild(document.createTextNode(service.createdAt));
+
+      const status = newRow.insertCell(3);
+      status.appendChild(document.createTextNode(service.status));
+
   });
 });
 
+
 const saveButton = document.querySelector('#post-service');
 saveButton.onclick = evt => {
+    evt.preventDefault();
+
     let urlName = document.querySelector('#url-name').value;
     fetch('/service', {
     method: 'post',
@@ -20,5 +35,5 @@ saveButton.onclick = evt => {
     'Content-Type': 'application/json'
     },
   body: JSON.stringify({url:urlName})
-}).then(res=> location.reload());
+}).then(response => location.reload());
 }

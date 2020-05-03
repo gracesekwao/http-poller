@@ -92,6 +92,9 @@ public class MainVerticle extends AbstractVerticle {
         }
       });
     });
+
+    // delete services
+
   }
 
   private JsonObject serviceObj(String url, String name) throws MalformedURLException {

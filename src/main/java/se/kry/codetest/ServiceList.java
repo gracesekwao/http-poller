@@ -44,7 +44,7 @@ public class ServiceList {
         return connector.query("INSERT OR REPLACE INTO services (url, name, createdAt)" +
                         " values (?," +
                         " ?," +
-                        " COALESCE((SELECT createdAt FROM service WHERE url = ?), ?)" +
+                        " COALESCE((SELECT createdAt FROM services WHERE url = ?), ?)" +
                         ")",
                 new JsonArray()
                         .add(service.getString("url"))
