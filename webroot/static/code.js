@@ -24,6 +24,7 @@ fetch(servicesRequest)
       const editBtn = document.createElement('a');
       const iconEdit = document.createElement('i');
       editBtn.setAttribute('class', 'edit');
+      editBtn.addEventListener('click', () => { editService(service.name, service.url)});
       editBtn.setAttribute('type', 'button');
       editBtn.setAttribute('title', 'edit');
       editBtn.setAttribute('data-toggle', 'tooltip')
@@ -47,7 +48,10 @@ fetch(servicesRequest)
 
   });
 });
-
+function editService(name, url) {
+    document.getElementById('url').value = url;
+    document.getElementById('name').value = name;
+}
 
 const saveButton = document.querySelector('#post-service');
 saveButton.onclick = evt => {
@@ -65,6 +69,8 @@ saveButton.onclick = evt => {
   body: JSON.stringify({url, name}),
 }).then(response => location.reload());
 }
+
+
 
 function deleteService(id) {
     fetch('/service/' + id, {
