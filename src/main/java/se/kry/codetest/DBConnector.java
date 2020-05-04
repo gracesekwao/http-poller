@@ -32,7 +32,7 @@ public class DBConnector {
       return Future.failedFuture("Query is null or empty");
     }
     if(!query.endsWith(";")) {
-      query = query + ";";
+      query += ";";
     }
 
     Future<ResultSet> queryResultFuture = Future.future();

@@ -7,9 +7,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.handler.StaticHandler;
-import se.kry.codetest.ServiceList;
 
-import java.util.HashMap;
 import java.util.List;
 import java.time.Instant;
 import java.io.UnsupportedEncodingException;
@@ -23,15 +21,12 @@ public class MainVerticle extends AbstractVerticle {
   private BackgroundPoller poller;
   private ServiceList serviceList;
 
-  private HashMap<String, String> services = new HashMap<>();
-  private DBConnector connector;
 
   @Override
   public void start(Future<Void> startFuture) {
     poller = new BackgroundPoller(vertx);
     serviceList = new ServiceList(new DBConnector(vertx));
 
-    connector = new DBConnector(vertx);
     Router router = Router.router(vertx);
     router.route().handler(BodyHandler.create());
 
@@ -70,30 +65,29 @@ public class MainVerticle extends AbstractVerticle {
     // post services
     router.post("/service").handler(req -> {
       JsonObject jsonBody = req.getBodyAsJson();
-      JsonObject service;
+
       try {
-        service = serviceObj(jsonBody.getString("url"), jsonBody.getString("name"));
+        JsonObject service = serviceObj(jsonBody.getString("url"), jsonBody.getString("name"));
+        serviceList.insert(service).setHandler(asyncResult -> {
+          if (asyncResult.succeeded()) {
+            System.out.println("URL Post successful");
+            req.response()
+                    .putHeader("content-type", "text/plain")
+                    .end("OK");
+          } else {
+            System.out.println("URL Post failed" + asyncResult.cause());
+            req.response()
+                    .setStatusCode(500)
+                    .putHeader("content-type", "text/plain")
+                    .end("Internal error");
+          }
+        });
       } catch (MalformedURLException e) {
         req.response()
                 .setStatusCode(400)
                 .putHeader("content-type", "text/plain")
                 .end("Invalid url: " + jsonBody.getString("url"));
-        return;
       }
-      serviceList.insert(service).setHandler(asyncResult -> {
-        if (asyncResult.succeeded()) {
-          System.out.println("URL Post successful");
-          req.response()
-                  .putHeader("content-type", "text/plain")
-                  .end("OK");
-        } else {
-          System.out.println("URL Post failed" + asyncResult.cause());
-          req.response()
-                  .setStatusCode(500)
-                  .putHeader("content-type", "text/plain")
-                  .end("Internal error");
-        }
-      });
     });
 
     // delete services
