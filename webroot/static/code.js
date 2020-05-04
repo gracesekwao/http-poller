@@ -1,53 +1,67 @@
-const listContainer = document.querySelector('#service-list');
-const listBody = listContainer.getElementsByTagName('tbody')[0];
-let servicesRequest = new Request('/service');
-fetch(servicesRequest)
-.then(function(response) { return response.json(); })
-.then(function(serviceList) {
-  serviceList.forEach(service => {
-      const newRow = listBody.insertRow(listBody.rows.length);
 
-      const newServiceName = newRow.insertCell(0);
-      newServiceName.appendChild(document.createTextNode(service.name));
+function fetchServices() {
+    let servicesRequest = new Request('/service');
+    fetch(servicesRequest)
+        .then(function(response) { return response.json(); })
+        .then(renderServices)
+}
 
-      const newUrlName = newRow.insertCell(1);
-      newUrlName.appendChild(document.createTextNode(service.url));
+function renderServices(serviceList) {
+    const listContainer = document.querySelector('#service-list');
+    const listBody = listContainer.getElementsByTagName('tbody')[0];
+    serviceList.forEach(service => {
+        const newRow = listBody.insertRow(listBody.rows.length);
 
-      const createdDate = newRow.insertCell(2);
-      createdDate.appendChild(document.createTextNode(service.createdAt));
+        const newServiceName = newRow.insertCell(0);
+        newServiceName.appendChild(document.createTextNode(service.name));
 
-      const status = newRow.insertCell(3);
-      status.appendChild(document.createTextNode(service.status));
+        const newUrlName = newRow.insertCell(1);
+        newUrlName.appendChild(document.createTextNode(service.url));
 
-      const actions = newRow.insertCell(4);
+        const createdDate = newRow.insertCell(2);
+        createdDate.appendChild(document.createTextNode(service.createdAt));
 
-      const editBtn = document.createElement('a');
-      const iconEdit = document.createElement('i');
-      editBtn.setAttribute('class', 'edit');
-      editBtn.addEventListener('click', () => { editService(service.name, service.url)});
-      editBtn.setAttribute('type', 'button');
-      editBtn.setAttribute('title', 'edit');
-      editBtn.setAttribute('data-toggle', 'tooltip')
-      iconEdit.setAttribute('class', 'material-icons');
-      iconEdit.innerHTML ='&#xE254;';
-      editBtn.appendChild(iconEdit);
+        const status = newRow.insertCell(3);
+        status.appendChild(document.createTextNode(service.status));
 
-      const deleteBtn = document.createElement('a');
-      const icon = document.createElement('i');
-      deleteBtn.setAttribute('class', 'delete');
-      deleteBtn.addEventListener('click', () => { deleteService(service.id)});
-      deleteBtn.setAttribute('type', 'button');
-      deleteBtn.setAttribute('title', 'delete');
-      deleteBtn.setAttribute('data-toggle', 'tooltip')
-      icon.setAttribute('class', 'material-icons');
-      icon.innerHTML ='&#xE872;';
-      deleteBtn.appendChild(icon);
+        const actions = newRow.insertCell(4);
 
-      actions.appendChild(editBtn);
-      actions.appendChild(deleteBtn);
+        const editBtn = document.createElement('a');
+        const iconEdit = document.createElement('i');
+        editBtn.setAttribute('class', 'edit');
+        editBtn.addEventListener('click', () => {
+            editService(service.name, service.url)
+        });
+        editBtn.setAttribute('type', 'button');
+        editBtn.setAttribute('title', 'edit');
+        editBtn.setAttribute('data-toggle', 'tooltip')
+        iconEdit.setAttribute('class', 'material-icons');
+        iconEdit.innerHTML = '&#xE254;';
+        editBtn.appendChild(iconEdit);
 
-  });
+        const deleteBtn = document.createElement('a');
+        const icon = document.createElement('i');
+        deleteBtn.setAttribute('class', 'delete');
+        deleteBtn.addEventListener('click', () => {
+            deleteService(service.id)
+        });
+        deleteBtn.setAttribute('type', 'button');
+        deleteBtn.setAttribute('title', 'delete');
+        deleteBtn.setAttribute('data-toggle', 'tooltip')
+        icon.setAttribute('class', 'material-icons');
+        icon.innerHTML = '&#xE872;';
+        deleteBtn.appendChild(icon);
+
+        actions.appendChild(editBtn);
+        actions.appendChild(deleteBtn);
+
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    fetchServices();
 });
+
 function editService(name, url) {
     document.getElementById('url').value = url;
     document.getElementById('name').value = name;
@@ -69,8 +83,6 @@ saveButton.onclick = evt => {
   body: JSON.stringify({url, name}),
 }).then(response => location.reload());
 }
-
-
 
 function deleteService(id) {
     fetch('/service/' + id, {
