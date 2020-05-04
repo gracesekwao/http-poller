@@ -5,10 +5,24 @@ import io.vertx.ext.web.client.WebClient;
 import io.vertx.core.json.JsonObject;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Random;
 import java.util.stream.Collectors;
 
+ enum Response{
+
+  OK {
+    @Override
+    public String toString() {
+      return "OK";
+    }
+  },
+  FAIL {
+    @Override
+    public String toString() {
+      return "FAIL";
+    }
+  },
+
+}
 public class BackgroundPoller {
   private final WebClient client;
 
@@ -26,13 +40,13 @@ public class BackgroundPoller {
       client.getAbs(url)
               .send(response -> {
                 if (response.succeeded()) {
-                  status.complete(service.put("status", 200 == response.result().statusCode() ? "OK" : "FAIL"));
+                  status.complete(service.put("status", 200 == response.result().statusCode() ? Response.OK : Response.FAIL));
                 } else {
-                  status.complete(service.put("status", "FAIL"));
+                  status.complete(service.put("status", Response.FAIL));
                 }
               });
     } catch (Exception e) {
-      status.complete(service.put("status", "FAIL"));
+      status.complete(service.put("status", Response.FAIL));
     }
     return status;
   }
