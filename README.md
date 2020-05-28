@@ -1,4 +1,4 @@
-# KRY code assignment
+# HTTP Poller assignment
 
 One of our developers built a simple service poller.
 The service consists of a backend service written in Vert.x (https://vertx.io/) that keeps a list of services (defined by a URL), and periodically does a HTTP GET to each and saves the response ("OK" or "FAIL").
@@ -27,13 +27,10 @@ Backend track
 
 Spend maximum four hours working on this assignment - make sure to finish the issues you start.
 
-Put the code in a git repo on GitHub and send us the link (niklas.holmqvist@kry.se) when you are done.
-
 Good luck!
 
 # Building
-We recommend using IntelliJ as it's what we use day to day at the KRY office.
-In intelliJ, choose
+We recommend using IntelliJ
 ```
 New -> New from existing sources -> Import project from external model -> Gradle -> select "use gradle wrapper configuration"
 ```
